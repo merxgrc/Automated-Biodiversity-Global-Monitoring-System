@@ -26,6 +26,14 @@ COPY ./backend /app
 RUN pip install --no-cache-dir -r requirements-gpu.txt
 
 # ==============================
+# DOWNLOAD VIDEO FROM GOOGLE DRIVE
+# (Replace YOUR_FILE_ID with your actual Google Drive file ID)
+# ==============================
+RUN mkdir -p /app/videos && \
+    curl -L "https://drive.google.com/uc?export=download&id=18q499sLhD7XtHbrtHMOLzfLZAWptAzFU" \
+    -o /app/videos/DronesVideos.mp4
+
+# ==============================
 # EXPOSE PORTS
 #  - 8000: FastAPI
 #  - 1935: RTMP (video stream)
@@ -36,8 +44,7 @@ EXPOSE 8000 1935 8080
 # ==============================
 # STARTUP COMMAND
 # ==============================
-# This runs FFmpeg in the background to simulate a live drone stream from your video
-# and then starts the FastAPI server for YOLO inference.
+# Simulates drone stream + starts FastAPI backend
 CMD ffmpeg -re -stream_loop -1 -i /app/videos/DronesVideos.mp4 \
     -c:v libx264 -f flv rtmp://localhost:1935/live/stream & \
     uvicorn main:app --host 0.0.0.0 --port 8000
