@@ -1,0 +1,30 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.env
+.venv/
+venv/
+
+# IDE / Git stuff
+.vscode/
+.idea/
+.git/
+.gitignore
+
+# Databases or local files
+*.db
+
+# Logs or cache
+*.log
+*.tmp
+
+# Videos (ignore all except test one)
+videos/*
+!videos/DronesVideos.mp4
+
+# Models (ignore all except the trained one)
+models/*
+!models/best.pt
